@@ -17,28 +17,23 @@ func hello(w http.ResponseWriter, r *http.Request) {
 	}
 	// v, _ := ioutil.ReadAll(r.Body)
 	v, _ := io.ReadAll(r.Body)
-	fmt.Fprintf(w, `
-<html>
-<head>
-	<title>Silver Surfing</title>
-</head>
-<body>
+	response := fmt.Sprintf(`
+<html><head><title>Silver Surfing</title></head><body>
 	Method: %v </br>
 	URL: %v </br>
 	QueryString: %v </br>
 	Request Body: %v </br>
 	-------------------------- </br>
 	<h2>Headers</h2>
-	</br>
 	%v
-</body>
-</html>
-`,
+</body></html>`,
 		r.Method,
 		r.URL.Path,
 		r.URL.RawQuery,
 		string(v),
 		headers)
+	fmt.Fprint(w, response)
+	log.Println(response)
 }
 
 func main() {
